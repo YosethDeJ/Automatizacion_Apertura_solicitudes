@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile descargar_solicitud.py)",
+      "Bash(python -c \"import playwright, dotenv; print\\('deps ok'\\)\")",
+      "Bash(python -m venv venv)",
+      "Bash(./venv/Scripts/python.exe -m pip install --quiet playwright python-dotenv)",
+      "Bash(./venv/Scripts/python.exe --version)",
+      "Bash(./venv/Scripts/python.exe -m pip install playwright python-dotenv)",
+      "Bash(./venv/Scripts/python.exe -m pip install playwright -v)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(which node *)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Bash(./venv/Scripts/python.exe -)",
+      "Bash(./venv/Scripts/python.exe -m pip show playwright)",
+      "Bash(./venv/Scripts/python.exe -m playwright --version)",
+      "Bash(./venv/Scripts/python.exe -m playwright install chromium)",
+      "Bash(./venv/Scripts/python.exe -c ' *)",
+      "Bash(/c/Users/yoseth.cera/AppData/Roaming/uv/python/cpython-3.14-windows-x86_64-none/python --version)",
+      "Bash(/c/Users/yoseth.cera/AppData/Roaming/uv/python/cpython-3.14-windows-x86_64-none/python -c 'import sys; print\\(sys.executable\\)')",
+      "Bash(/c/Users/yoseth.cera/AppData/Roaming/uv/python/cpython-3.14-windows-x86_64-none/python -m pip --version)"
+    ]
+  }
+}
