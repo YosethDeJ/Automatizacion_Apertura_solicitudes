@@ -92,6 +92,11 @@ def iniciar_sesion(page):
         page.wait_for_load_state("networkidle", timeout=12000)
     except PlaywrightTimeoutError:
         page.wait_for_timeout(4000)
+    # Si no aparece el campo de búsqueda, el login falló (credenciales, portal caído...)
+    try:
+        page.wait_for_selector(SEL_CAMPO_SOL, timeout=12000)
+    except PlaywrightTimeoutError:
+        raise RuntimeError("No se pudo iniciar sesión: revisa PORTAL_USER/PORTAL_PASSWORD en .env")
     log(f"  Sesión iniciada | {page.title()}")
 
 
@@ -99,12 +104,24 @@ def consultar_sol(page, sol: str) -> bool:
     """Busca la SOL y verifica que la tabla traiga resultados."""
     try:
         page.wait_for_selector(SEL_CAMPO_SOL, timeout=12000)
+        # Texto de la tabla antes de consultar: sirve para detectar que se refrescó
+        # y no leer las filas de la SOL anterior
+        filas = page.locator(SEL_FILAS_TABLA)
+        previo = filas.first.inner_text() if filas.count() else None
+
         campo = page.locator(SEL_CAMPO_SOL)
         campo.click()
         campo.press("Control+A")
         campo.fill(sol)
         page.click(SEL_BTN_CONSULTAR)
         page.wait_for_selector(SEL_FILAS_TABLA, timeout=12000)
+        if previo is not None:
+            page.wait_for_function(
+                "([sel, prev]) => { const f = document.querySelector(sel);"
+                " return f && f.innerText !== prev; }",
+                arg=[SEL_FILAS_TABLA, previo],
+                timeout=12000,
+            )
     except Exception as e:
         log(f"  ✘ Error consultando SOL {sol}: {e}")
         return False
@@ -238,7 +255,10 @@ def main():
                 except Exception as e:
                     log(f"  ✘ Error descargando SOL {sol}: {e}")
                 finally:
-                    popup.close()
+                    try:
+                        popup.close()
+                    except Exception:
+                        pass
         except Exception as e:
             log(f"Error general: {e}")
         finally:

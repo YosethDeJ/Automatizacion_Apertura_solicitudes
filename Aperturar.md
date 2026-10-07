@@ -21,7 +21,7 @@ Por cada SOL el robot:
 
 ```
 Automatizacion_Apertura_solicitudes/
-├── .env                     ← credenciales del portal (no subir a git)
+├── .env                     ← credenciales del portal (excluido en .gitignore, no subir a git)
 ├── main.py                  ← script principal
 ├── renombrar_adjuntos.py    ← utilidad: renombra archivos con prefijo antiguo al nombre correcto
 ├── Aperturar.md             ← este archivo
@@ -61,8 +61,8 @@ Carpetas regionales disponibles: `Atlántico Norte`, `Atlántico Sur`, `Guajira`
 
 ```
 PORTAL_URL="https://servicios.air-e.com/creg174/form/Login.aspx"
-PORTAL_USER="<oculto>"
-PORTAL_PASSWORD="<oculto>"
+PORTAL_USER="<usuario>"
+PORTAL_PASSWORD="<contraseña>"
 SHAREPOINT_UNIFICADO_URL=""    ← dejar vacío (sin acceso a cuenta autogeneracion)
 ```
 
